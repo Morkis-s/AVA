@@ -297,13 +297,22 @@ body {
 .presentation-slider__dots button { width: 28px; height: 8px; padding: 0; border: 1px solid #141414; background: transparent; cursor: pointer; transition: width 180ms ease, background 180ms ease; }
 .presentation-slider__dots button.active { width: 52px; background: #f5bc28; }
 .presentation-slider .about-noru__overview { align-content: center; padding-bottom: 7rem; }
+.overview-challenge { display: flex; grid-column: 1 / -1; padding-left: 1rem; align-items: flex-start; flex-direction: column; gap: 0.65rem; border-left: 5px solid #e94a24; }
+.overview-challenge strong { flex: 0 0 auto; padding: 0.4rem 0.6rem; color: #f6f3e6; background: #141414; font-size: 0.68rem; letter-spacing: 0.1em; }
+.overview-challenge p { max-width: 58rem; margin: 0; font-size: clamp(0.78rem, 1vw, 0.95rem); font-weight: 750; line-height: 1.5; }
 .presentation-slider .journey,
 .presentation-slider .jade,
 .presentation-slider .features,
 .presentation-slider .connection,
 .presentation-slider .progress-system,
 .presentation-slider .ods { padding-bottom: 8rem; }
+.presentation-slider .about-noru__overview,
+.presentation-slider .journey,
+.presentation-slider .features,
+.presentation-slider .connection,
 .presentation-slider .progress-system { color: #141414; background: #f6f3e6; }
+.presentation-slider .overview-card,
+.presentation-slider .feature-card { border-color: #141414; }
 .presentation-slider .progress-system h2 em { color: #e94a24; }
 
 @media (min-width: 1001px) {
@@ -404,11 +413,15 @@ body {
 
 .features { padding: clamp(5rem, 10vw, 10rem) clamp(1.25rem, 7vw, 8rem); color: #f6f3e6; background: #141414; }
 .section-heading--light > span { color: #f5bc28; }
+.presentation-slider .section-heading--light > span {
+  padding: 0.45rem 0.7rem;
+  color: #f6f3e6;
+  background: #141414;
+}
 .features__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
 .feature-card { position: relative; min-height: 390px; padding: 1.5rem; border: 2px solid #f6f3e6; transition: color 180ms ease, background 180ms ease, transform 180ms ease; }
 .feature-card:hover { color: #141414; background: #f5bc28; transform: translateY(-8px); }
 .feature-card__icon { display: grid; width: 64px; height: 64px; place-items: center; border: 2px solid currentColor; border-radius: 50%; font-size: 2rem; }
-.feature-card small { position: absolute; top: 1.5rem; right: 1.5rem; font-weight: 900; }
 .feature-card h3 { margin: 9rem 0 1rem; font: 900 clamp(2.2rem, 3.5vw, 3.8rem)/1 Impact, sans-serif; text-transform: uppercase; }
 .feature-card p { margin: 0; line-height: 1.6; }
 
@@ -525,28 +538,6 @@ body {
   overflow: hidden;
   background: transparent;
 }
-
-.hero__scene-fallback {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  transition: opacity 180ms ease;
-}
-
-.hero__scene-fallback--hidden { opacity: 0; }
-
-.hero__scene-fallback span {
-  position: absolute;
-  border: 3px solid #141414;
-  border-radius: 50%;
-  background: #f5bc28;
-  box-shadow: 10px 10px 0 #141414;
-}
-
-.hero__scene-fallback span:nth-child(1) { top: 25%; left: 19%; width: clamp(70px, 9vw, 150px); aspect-ratio: 1; }
-.hero__scene-fallback span:nth-child(2) { right: 15%; bottom: 18%; width: clamp(90px, 13vw, 210px); aspect-ratio: 1; border-radius: 18%; background: #e34c26; transform: rotate(13deg); }
-.hero__scene-fallback span:nth-child(3) { right: 30%; top: 40%; width: clamp(46px, 5vw, 85px); aspect-ratio: 1; background: #f6f3e6; }
 
 .hero__scene > div,
 .hero__scene canvas {
@@ -688,13 +679,11 @@ body {
 }
 
 .team-card:nth-child(even) .team-card__portrait { background-color: #e34c26; background-image: radial-gradient(circle at 50% 38%, #f6f3e6 0 18%, transparent 18.5%), radial-gradient(ellipse at 50% 105%, #141414 0 48%, transparent 48.5%); }
-.team-card__portrait > span { position: absolute; font: 900 clamp(3rem, 6vw, 6rem)/1 Impact, sans-serif; opacity: 0.12; }
-.team-card__portrait small { position: absolute; bottom: 0.75rem; padding: 0.3rem 0.5rem; color: #f6f3e6; background: #141414; font-weight: 900; letter-spacing: 0.1em; }
+.team-card__portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.team-card:last-child .team-card__portrait img { object-fit: cover; object-position: right center; }
 .team-card__info { padding: 1.1rem 0.35rem 0.4rem; }
 .team-card__info h3 { margin: 0; font: 900 clamp(1.25rem, 2vw, 1.8rem)/1 Impact, sans-serif; letter-spacing: 0.03em; text-transform: uppercase; }
 .team-card__info p { margin: 0.4rem 0 1rem; color: #e34c26; font-size: 0.78rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
-.team-card__links { display: flex; gap: 0.5rem; }
-.team-card__links span { padding: 0.28rem 0.4rem; border: 1px solid #141414; font-size: 0.62rem; font-weight: 900; letter-spacing: 0.06em; }
 
 @media (max-width: 1000px) {
   .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -751,6 +740,151 @@ body {
 .font-controls { display: flex; align-items: center; gap: 0.4rem; }
 .font-controls output { min-width: 52px; font-weight: 900; text-align: center; }
 .font-controls button { min-width: 48px; color: #141414; background: #f5bc28; }
+
+/* O tema escuro cobre todas as superfícies principais, sem apagar as cores de destaque. */
+:root[data-theme="dark"] .about-noru,
+:root[data-theme="dark"] .about-noru__intro,
+:root[data-theme="dark"] .presentation-slider,
+:root[data-theme="dark"] .presentation-slider .about-noru__overview,
+:root[data-theme="dark"] .presentation-slider .journey,
+:root[data-theme="dark"] .presentation-slider .features,
+:root[data-theme="dark"] .presentation-slider .connection,
+:root[data-theme="dark"] .presentation-slider .progress-system,
+:root[data-theme="dark"] .jade,
+:root[data-theme="dark"] .ods,
+:root[data-theme="dark"] .scroll-section,
+:root[data-theme="dark"] .team-section {
+  color: #f6f3e6;
+  background: #141414;
+}
+
+:root[data-theme="dark"] .about-noru__benefits span,
+:root[data-theme="dark"] .overview-card:first-child,
+:root[data-theme="dark"] .feature-card,
+:root[data-theme="dark"] .journey__track,
+:root[data-theme="dark"] .journey-step {
+  border-color: #f6f3e6;
+}
+
+:root[data-theme="dark"] .about-noru__brand,
+:root[data-theme="dark"] .team-card,
+:root[data-theme="dark"] .noru-demo,
+:root[data-theme="dark"] .ods__panel,
+:root[data-theme="dark"] .accessibility-modal,
+:root[data-theme="dark"] .accessibility-option {
+  color: #f6f3e6;
+  background: #232323;
+  border-color: #f6f3e6;
+}
+
+:root[data-theme="dark"] .about-noru__brand > span,
+:root[data-theme="dark"] .team-card__links span,
+:root[data-theme="dark"] .accessibility-modal__close {
+  color: #f6f3e6;
+  border-color: #f6f3e6;
+}
+
+:root[data-theme="dark"] .presentation-slider__controls {
+  color: #f6f3e6;
+  background: rgba(35, 35, 35, 0.96);
+  border-color: #f6f3e6;
+  box-shadow: 7px 7px 0 #000;
+}
+
+:root[data-theme="dark"] .presentation-slider__dots button { border-color: #f6f3e6; }
+:root[data-theme="dark"] .phone-shell {
+  border-color: #f6f3e6;
+  box-shadow: 0 0 0 7px #e94a24, 18px 20px 0 #f5bc28;
+}
+
+:root[data-theme="dark"] .phone-shell::before,
+:root[data-theme="dark"] .phone-shell::after { background: #e94a24; }
+:root[data-theme="dark"] .phone-prototype__label {
+  color: #f6f3e6;
+  background: #232323;
+  border-color: #f6f3e6;
+  box-shadow: 4px 4px 0 #f5bc28;
+}
+
+:root[data-theme="dark"] .phone-prototype__steps button {
+  color: #f6f3e6;
+  border-color: #f6f3e6;
+}
+
+:root[data-theme="dark"] .phone-prototype__steps button.active {
+  color: #141414;
+  background: #f5bc28;
+}
+:root[data-theme="dark"] .phone-screen .app-text-button { color: #f6f3e6; }
+:root[data-theme="dark"] .team-section__heading > p {
+  color: #f6f3e6;
+  background: rgba(246, 243, 230, 0.08);
+  border-color: rgba(246, 243, 230, 0.4);
+}
+
+:root[data-theme="dark"] .phone-screen,
+:root[data-theme="dark"] .app-screen,
+:root[data-theme="dark"] .app-login,
+:root[data-theme="dark"] .app-ranking,
+:root[data-theme="dark"] .app-user-profile {
+  color: #f6f3e6;
+  background-color: #232323;
+}
+
+:root[data-theme="dark"] .app-login input,
+:root[data-theme="dark"] .app-field input,
+:root[data-theme="dark"] .app-list article,
+:root[data-theme="dark"] .app-shortcuts button,
+:root[data-theme="dark"] .app-bottom-nav,
+:root[data-theme="dark"] .app-chat-input {
+  color: #f6f3e6;
+  background: #303030;
+  border-color: #777;
+}
+
+:root[data-theme="dark"] .toggle { border-color: #f6f3e6; }
+
+:root[data-theme="dark"] .noru-demo {
+  border-color: #f6f3e6;
+  box-shadow: 15px 15px 0 #f5bc28;
+}
+
+:root[data-theme="dark"] .noru-demo__header,
+:root[data-theme="dark"] .noru-demo__modes,
+:root[data-theme="dark"] .noru-demo__actions { border-color: #777; }
+:root[data-theme="dark"] .noru-demo__header span { color: #c9c6bb; }
+:root[data-theme="dark"] .noru-demo__modes button,
+:root[data-theme="dark"] .noru-demo__actions button {
+  color: #f6f3e6;
+  border-color: #777;
+}
+:root[data-theme="dark"] .noru-demo__messages { background-color: #232323; }
+:root[data-theme="dark"] .noru-demo__actions { background: #1b1b1b; }
+:root[data-theme="dark"] .chat-message p {
+  color: #f6f3e6;
+  background: #303030;
+  border-color: #888;
+}
+:root[data-theme="dark"] .chat-message--user p { color: #141414; background: #f5bc28; }
+:root[data-theme="dark"] .noru-demo-note {
+  color: #f6f3e6;
+  background: #232323;
+  box-shadow: 6px 6px 0 #f5bc28;
+}
+
+:root[data-theme="dark"] .ods__tabs { border-color: #f6f3e6; }
+:root[data-theme="dark"] .ods__tabs button {
+  color: #f6f3e6;
+  background: #292929;
+  border-color: #777;
+}
+:root[data-theme="dark"] .ods__tabs button.active { color: #141414; background: #f5bc28; }
+:root[data-theme="dark"] .ods__panel {
+  border-color: #f6f3e6;
+  box-shadow: 12px 12px 0 #e94a24;
+}
+:root[data-theme="dark"] .ods__number { text-shadow: 5px 5px 0 #e94a24; }
+:root[data-theme="dark"] .ods__relation { color: #141414; }
 .toggle:focus-visible,
 .accessibility-action:focus-visible,
 .font-controls button:focus-visible { outline: 3px solid #f5bc28; outline-offset: 3px; }

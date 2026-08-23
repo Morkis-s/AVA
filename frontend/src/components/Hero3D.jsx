@@ -1,26 +1,72 @@
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { Component, Suspense, lazy, useEffect, useRef, useState } from "react";
 import AboutNoru from "./AboutNoru";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
 
-const shouldUseLightweightScene = () => {
-  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  const hasLimitedMemory = navigator.deviceMemory && navigator.deviceMemory <= 4;
-  const hasLimitedCpu = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+class SceneErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { failed: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error) {
+    console.error("Falha isolada na cena 3D do NORU:", error);
+  }
+
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
+
+function VLibrasWidget() {
+  useEffect(() => {
+    let cancelled = false;
+
+    const initialize = () => {
+      if (cancelled || !window.VLibras || window.__noruVLibrasInitialized) return;
+      new window.VLibras.Widget("https://vlibras.gov.br/app");
+      window.__noruVLibrasInitialized = true;
+      if (typeof window.onload === "function") window.onload();
+    };
+
+    if (window.VLibras) {
+      initialize();
+      return () => { cancelled = true; };
+    }
+
+    let script = document.querySelector('script[data-noru-vlibras]');
+    if (!script) {
+      script = document.createElement("script");
+      script.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
+      script.async = true;
+      script.dataset.noruVlibras = "true";
+      document.body.appendChild(script);
+    }
+    script.addEventListener("load", initialize);
+
+    return () => {
+      cancelled = true;
+      script.removeEventListener("load", initialize);
+    };
+  }, []);
 
   return (
-    connection?.saveData ||
-    hasLimitedMemory ||
-    hasLimitedCpu ||
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    <div vw="true" className="enabled">
+      <div vw-access-button="true" className="active" />
+      <div vw-plugin-wrapper="true"><div className="vw-plugin-top-wrapper" /></div>
+    </div>
   );
-};
+}
 
 const teamMembers = [
-  { number: "01", initials: "IN", name: "Integrante 01", role: "UX / UI Design" },
-  { number: "02", initials: "IN", name: "Integrante 02", role: "Desenvolvimento" },
-  { number: "03", initials: "IN", name: "Integrante 03", role: "Pesquisa & Dados" },
-  { number: "04", initials: "IN", name: "Integrante 04", role: "Produto & Estratégia" },
+  { number: "01", name: "Livia Karoliny", role: "UX / UI Design", photo: "/team/1.jpeg" },
+  { number: "02", name: "Yago Nascimento", role: "Desenvolvimento", photo: "/team/2.jpeg" },
+  { number: "03", name: "Alewesley Sousa", role: "Pesquisa & Dados", photo: "/team/3.jpeg" },
+  { number: "04", name: "Maria Eduarda", role: "Produto & Estratégia", photo: "/team/4.jpeg" },
 ];
 
 const readPreference = (key, fallback) => {
@@ -45,28 +91,12 @@ export default function Hero3D() {
   const heroTitleRef = useRef(null);
   const modalCloseRef = useRef(null);
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
-  const [isLightMode, setIsLightMode] = useState(() => readPreference("noru-theme", "light") !== "dark");
+  const [isDarkMode, setIsDarkMode] = useState(() => readPreference("noru-theme", "light") === "dark");
   const [fontScale, setFontScale] = useState(() => {
     const savedScale = Number(readPreference("noru-font-scale", "100"));
     return Number.isFinite(savedScale) && savedScale >= 90 && savedScale <= 130 ? savedScale : 100;
   });
   const [isVlibrasEnabled, setIsVlibrasEnabled] = useState(false);
-  const [shouldLoadScene, setShouldLoadScene] = useState(false);
-  const [isSceneLoaded, setIsSceneLoaded] = useState(false);
-
-  useEffect(() => {
-    if (shouldUseLightweightScene()) return undefined;
-
-    const loadScene = () => setShouldLoadScene(true);
-    const idleId = "requestIdleCallback" in window
-      ? window.requestIdleCallback(loadScene, { timeout: 2500 })
-      : window.setTimeout(loadScene, 1200);
-
-    return () => {
-      if ("cancelIdleCallback" in window) window.cancelIdleCallback(idleId);
-      else window.clearTimeout(idleId);
-    };
-  }, []);
 
   useEffect(() => {
     if (window.location.hash) {
@@ -99,9 +129,9 @@ export default function Hero3D() {
   }, []);
 
   useEffect(() => {
-    document.documentElement.dataset.theme = isLightMode ? "light" : "dark";
-    savePreference("noru-theme", isLightMode ? "light" : "dark");
-  }, [isLightMode]);
+    document.documentElement.dataset.theme = isDarkMode ? "dark" : "light";
+    savePreference("noru-theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
 
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontScale}%`;
@@ -141,7 +171,7 @@ export default function Hero3D() {
 
   useEffect(() => {
     const container = sceneContainerRef.current;
-    if (!container || !shouldLoadScene) return undefined;
+    if (!container) return undefined;
 
     let isVisible = true;
     const updatePlayback = () => {
@@ -160,31 +190,12 @@ export default function Hero3D() {
       observer.disconnect();
       document.removeEventListener("visibilitychange", updatePlayback);
     };
-  }, [shouldLoadScene]);
+  }, []);
 
   const handleSplineLoad = (spline) => {
     splineRef.current = spline;
     spline.setBackgroundColor?.("transparent");
-    setIsSceneLoaded(true);
-  };
-
-  const enableVlibras = () => {
-    if (window.VLibras) {
-      setIsVlibrasEnabled(true);
-      return;
-    }
-
-    if (!document.querySelector('script[data-vlibras]')) {
-      const script = document.createElement("script");
-      script.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
-      script.async = true;
-      script.dataset.vlibras = "true";
-      script.onload = () => {
-        new window.VLibras.Widget("https://vlibras.gov.br/app");
-        setIsVlibrasEnabled(true);
-      };
-      document.body.appendChild(script);
-    }
+    spline.play?.();
   };
 
   return (
@@ -207,16 +218,14 @@ export default function Hero3D() {
 
         <div ref={sceneContainerRef} className="hero__art" aria-label="Animação 3D interativa">
           <div className="hero__scene">
-            <div className={`hero__scene-fallback ${isSceneLoaded ? "hero__scene-fallback--hidden" : ""}`} aria-hidden="true"><span /><span /><span /></div>
-            {shouldLoadScene && (
+            <SceneErrorBoundary>
               <Suspense fallback={null}>
                 <Spline
                   scene="/scene.splinecode"
                   onLoad={handleSplineLoad}
-                  renderOnDemand
                 />
               </Suspense>
-            )}
+            </SceneErrorBoundary>
           </div>
         </div>
       </section>
@@ -234,16 +243,12 @@ export default function Hero3D() {
         <div className="team-grid">
           {teamMembers.map((member) => (
             <article className="team-card" key={member.number}>
-              <div className="team-card__portrait" aria-label={`Espaço para foto de ${member.name}`}>
-                <span>{member.initials}</span>
-                <small>SUA FOTO</small>
+              <div className="team-card__portrait">
+                <img src={member.photo} alt={`Foto de ${member.name}`} loading="lazy" decoding="async" />
               </div>
               <div className="team-card__info">
                 <h3>{member.name}</h3>
                 <p>{member.role}</p>
-                <div className="team-card__links" aria-label={`Redes sociais de ${member.name}`}>
-                  <span>GITHUB</span>
-                </div>
               </div>
             </article>
           ))}
@@ -276,13 +281,13 @@ export default function Hero3D() {
 
             <div className="accessibility-modal__options">
               <div className="accessibility-option">
-                <div><strong>Modo claro</strong><span>Alterne as cores da interface</span></div>
-                <button type="button" className={`toggle ${isLightMode ? "toggle--active" : ""}`} role="switch" aria-checked={isLightMode} aria-label="Ativar modo claro" onClick={() => setIsLightMode((value) => !value)}><span /></button>
+                <div><strong>Modo escuro</strong><span>Reduza a luminosidade da interface</span></div>
+                <button type="button" className={`toggle ${isDarkMode ? "toggle--active" : ""}`} role="switch" aria-checked={isDarkMode} aria-label="Ativar modo escuro" onClick={() => setIsDarkMode((value) => !value)}><span /></button>
               </div>
 
               <div className="accessibility-option">
                 <div><strong>VLibras</strong><span>Tradução de conteúdo para Libras</span></div>
-                <button type="button" className="accessibility-action" onClick={enableVlibras} disabled={isVlibrasEnabled}>{isVlibrasEnabled ? "ATIVADO" : "ATIVAR"}</button>
+                <button type="button" className="accessibility-action" onClick={() => { setIsVlibrasEnabled(true); setIsAccessibilityOpen(false); }} disabled={isVlibrasEnabled}>{isVlibrasEnabled ? "ATIVADO" : "ATIVAR"}</button>
               </div>
 
               <div className="accessibility-option accessibility-option--font">
@@ -298,10 +303,7 @@ export default function Hero3D() {
         </div>
       )}
 
-      <div vw="true" className="enabled" style={{ display: isVlibrasEnabled ? undefined : "none" }}>
-        <div vw-access-button="true" className="active" />
-        <div vw-plugin-wrapper="true"><div className="vw-plugin-top-wrapper" /></div>
-      </div>
+      {isVlibrasEnabled && <VLibrasWidget />}
     </main>
   );
 }

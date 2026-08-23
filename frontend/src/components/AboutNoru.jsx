@@ -132,7 +132,7 @@ export default function AboutNoru() {
       <header className="about-noru__intro">
         <div className="about-noru__pitch">
           <span className="about-noru__kicker">CARREIRA SEM COMPLICAÇÃO</span>
-          <h2 id="about-title">Cansado do<br /><em>LinkedIn?</em></h2>
+          <h2 id="about-title">Cansado do<br /><em>Linkedln?</em></h2>
           <p className="about-noru__answer">Conheça o <strong>NORU.</strong></p>
           <p className="about-noru__description">Uma plataforma profissional feita para jovens aprenderem, criarem experiência e encontrarem oportunidades de um jeito simples, personalizado e confiável.</p>
           <div className="about-noru__benefits" aria-label="Principais benefícios do NORU">
@@ -153,6 +153,10 @@ export default function AboutNoru() {
       >
       <div className="presentation-slider__track" style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
       <div className="about-noru__overview">
+        <aside className="overview-challenge" aria-label="Desafio de inclusão produtiva">
+          <strong>INCLUSÃO PRODUTIVA DE JOVENS</strong>
+          <p>Como podemos usar dados e tecnologia para aproximar jovens das oportunidades de trabalho, ampliando o acesso à informação e fortalecendo a conexão com empregadores?</p>
+        </aside>
         {overviewItems.map((item) => (
           <article className="overview-card" key={item.label}>
             <span>{item.label}</span>
@@ -183,10 +187,9 @@ export default function AboutNoru() {
           <h2 id="features-title">Explore.<br /><em>Aprenda. Evolua.</em></h2>
         </header>
         <div className="features__grid">
-          {features.map((feature, index) => (
+          {features.map((feature) => (
             <article className="feature-card" key={feature.title}>
               <span className="feature-card__icon">{feature.icon}</span>
-              <small>0{index + 1}</small>
               <h3>{feature.title}</h3>
               <p>{feature.text}</p>
             </article>
