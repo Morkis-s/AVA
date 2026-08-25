@@ -1,5 +1,6 @@
 import { Component, Suspense, lazy, useEffect, useRef, useState } from "react";
 import AboutNoru from "./AboutNoru";
+import PhonePrototype from "./PhonePrototype";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
 
@@ -63,11 +64,16 @@ function VLibrasWidget() {
 }
 
 const teamMembers = [
-  { number: "01", name: "Livia Karoliny", role: "UX / UI Design", photo: "/team/1.jpeg" },
-  { number: "02", name: "Yago Nascimento", role: "Desenvolvimento", photo: "/team/2.jpeg" },
-  { number: "03", name: "Alewesley Sousa", role: "Pesquisa & Dados", photo: "/team/3.jpeg" },
-  { number: "04", name: "Maria Eduarda", role: "Produto & Estratégia", photo: "/team/4.jpeg" },
+  { number: "01", name: "Livia Karoliny", role: "UX/UI & Desenvolvimento", photo: "/team/1.jpeg" },
+  { number: "02", name: "Yago Nascimento", role: "Organização & Planejamento", photo: "/team/2.jpeg" },
+  { number: "03", name: "Alewesley Sousa", role: "Pesquisa & Estruturação", photo: "/team/3.jpeg" },
+  { number: "04", name: "Maria Eduarda", role: "Conteúdo & Comunicação", photo: "/team/4.jpeg" },
 ];
+
+const projectLinks = {
+  figma: "https://www.figma.com/proto/FUvvXp5FI5S4DqD0OkGlq6/Sem-t%C3%ADtulo?node-id=0-1&t=k8MpPoEXxRnQyFLp-1",
+  youtube: "", // Use o formato https://www.youtube.com/embed/ID_DO_VIDEO
+};
 
 const readPreference = (key, fallback) => {
   try {
@@ -252,6 +258,59 @@ export default function Hero3D() {
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="project-links" aria-labelledby="project-links-title">
+        <header className="project-links__heading">
+          <span className="project-links__eyebrow">DO CONCEITO À EXPERIÊNCIA</span>
+          <h2 id="project-links-title">Veja o projeto<br /><em>ganhar vida.</em></h2>
+          <p>Explore cada detalhe do protótipo e conheça a história por trás do NORU.</p>
+        </header>
+
+        <div className="project-links__grid">
+          <article className="project-link-card project-link-card--figma">
+            <div className="project-link-card__topline">
+              <span>PROTÓTIPO</span>
+              <strong>FIGMA ↗</strong>
+            </div>
+            <div className="project-phone-preview" inert="" aria-label="Prévia estática do aplicativo NORU">
+              <PhonePrototype />
+            </div>
+            <div className="project-link-card__copy">
+              <div><h3>Protótipo navegável</h3><p>Conheça os fluxos, telas e decisões de experiência que deram forma ao aplicativo.</p></div>
+              {projectLinks.figma ? <a href={projectLinks.figma} target="_blank" rel="noreferrer">ABRIR NO FIGMA <span>↗</span></a> : <span className="project-link-card__placeholder">LINK DO FIGMA EM BREVE</span>}
+            </div>
+          </article>
+
+          <article className="project-link-card project-link-card--youtube">
+            <div className="project-link-card__topline">
+              <span>APRESENTAÇÃO</span>
+              <strong>YOUTUBE ▶</strong>
+            </div>
+            <div className="video-preview">
+              {projectLinks.youtube ? (
+                <iframe
+                  src={projectLinks.youtube}
+                  title="Pitch oficial do NORU"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="video-preview__empty">
+                  <div className="video-preview__brand" aria-hidden="true">NORU</div>
+                  <div className="video-preview__play" aria-hidden="true">▶</div>
+                  <span>O PLAYER DO PITCH APARECERÁ AQUI</span>
+                </div>
+              )}
+            </div>
+            <div className="project-link-card__copy">
+              <div><h3>Assista ao pitch</h3><p>Em poucos minutos, entenda o problema, a solução e o impacto que queremos construir.</p></div>
+              {projectLinks.youtube ? <a href={projectLinks.youtube} target="_blank" rel="noreferrer">ASSISTIR NO YOUTUBE <span>▶</span></a> : <span className="project-link-card__placeholder">PITCH EM BREVE</span>}
+            </div>
+          </article>
         </div>
       </section>
 

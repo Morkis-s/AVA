@@ -579,16 +579,6 @@ body {
   contain-intrinsic-size: 100vh;
 }
 
-.team-section::before {
-  content: "04";
-  position: absolute;
-  right: -0.04em;
-  bottom: -0.22em;
-  color: rgba(246, 243, 230, 0.035);
-  font: 900 min(50vw, 42rem)/1 Impact, sans-serif;
-  pointer-events: none;
-}
-
 .team-section__heading {
   position: relative;
   z-index: 1;
@@ -685,9 +675,52 @@ body {
 .team-card__info h3 { margin: 0; font: 900 clamp(1.25rem, 2vw, 1.8rem)/1 Impact, sans-serif; letter-spacing: 0.03em; text-transform: uppercase; }
 .team-card__info p { margin: 0.4rem 0 1rem; color: #e34c26; font-size: 0.78rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
 
+.project-links {
+  position: relative;
+  min-height: 100vh;
+  padding: clamp(4rem, 8vw, 8rem) clamp(1.25rem, 6vw, 7rem);
+  overflow: hidden;
+  border-top: 12px solid #f5bc28;
+  color: #141414;
+  background: #f6f3e6;
+}
+.project-links__heading { position: relative; z-index: 1; max-width: 1500px; margin: 0 auto clamp(2.5rem, 5vw, 4.5rem); }
+.project-links__eyebrow { display: inline-block; padding: 0.45rem 0.7rem; color: #f6f3e6; background: #141414; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.13em; }
+.project-links__heading h2 { margin: 1rem 0; font: 900 clamp(3.5rem, 8vw, 8rem)/0.8 Impact, sans-serif; text-transform: uppercase; }
+.project-links__heading h2 em { color: #e34c26; font-style: normal; }
+.project-links__heading p { max-width: 42rem; margin: 0; font-size: clamp(1rem, 1.3vw, 1.2rem); font-weight: 700; line-height: 1.55; }
+.project-links__grid { position: relative; z-index: 1; display: grid; max-width: 1500px; margin: 0 auto; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); }
+.project-link-card { min-width: 0; padding: clamp(0.9rem, 1.5vw, 1.4rem); border: 3px solid #141414; background: #fffdf5; box-shadow: 12px 12px 0 #141414; }
+.project-link-card--youtube { background: #e34c26; box-shadow: 12px 12px 0 #f5bc28; }
+.project-link-card__topline { display: flex; align-items: center; justify-content: space-between; padding: 0.2rem 0.1rem 1rem; font-size: 0.67rem; font-weight: 900; letter-spacing: 0.1em; }
+.project-link-card__topline strong { padding: 0.35rem 0.5rem; color: #f6f3e6; background: #141414; }
+.project-phone-preview { position: relative; display: grid; height: clamp(360px, 34vw, 500px); padding: 1rem; place-items: center; overflow: hidden; border: 3px solid #141414; background-color: #dedbd0; background-image: radial-gradient(#aaa79d 1px, transparent 1px); background-size: 18px 18px; }
+.project-phone-preview .phone-prototype { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.55); transform-origin: center; }
+.project-phone-preview .phone-shell { height: 650px; max-height: none; }
+.project-phone-preview .phone-prototype__label,
+.project-phone-preview .phone-prototype__steps { display: none; }
+.project-phone-preview .phone-prototype { pointer-events: none; user-select: none; }
+.video-preview { position: relative; display: grid; place-items: center; color: #f6f3e6; background: #141414; }
+.video-preview { height: clamp(360px, 34vw, 500px); overflow: hidden; border: 3px solid #141414; }
+.video-preview iframe { width: 100%; height: 100%; border: 0; }
+.video-preview__empty { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; background: repeating-linear-gradient(110deg, transparent 0 50px, rgba(227,76,38,.35) 52px 55px); }
+.video-preview__brand { position: absolute; font: 900 clamp(6rem, 14vw, 13rem)/1 Impact, sans-serif; letter-spacing: 0.08em; opacity: 0.12; }
+.video-preview__play { position: relative; display: grid; width: clamp(70px, 8vw, 110px); aspect-ratio: 1; padding-left: 0.4rem; place-items: center; border: 3px solid #141414; border-radius: 50%; color: #141414; background: #f5bc28; font-size: clamp(1.5rem, 3vw, 2.5rem); box-shadow: 7px 7px 0 #e34c26; }
+.video-preview__empty > span { position: absolute; bottom: 1.25rem; font-size: 0.58rem; font-weight: 900; letter-spacing: 0.1em; }
+.project-link-card__copy { display: flex; min-height: 145px; align-items: end; justify-content: space-between; gap: 1.5rem; padding: 1.35rem 0.2rem 0.2rem; }
+.project-link-card__copy div { max-width: 60%; }
+.project-link-card__copy h3 { margin: 0; font: 900 clamp(1.6rem, 2.4vw, 2.6rem)/1 Impact, sans-serif; text-transform: uppercase; }
+.project-link-card__copy p { margin: 0.55rem 0 0; font-size: 0.82rem; font-weight: 700; line-height: 1.45; }
+.project-link-card__copy a, .project-link-card__placeholder { flex: none; padding: 0.85rem 1rem; border: 2px solid #141414; color: #f6f3e6; background: #141414; font-size: 0.63rem; font-weight: 900; letter-spacing: 0.07em; text-decoration: none; }
+.project-link-card__copy a:hover, .project-link-card__copy a:focus-visible { color: #141414; background: #f5bc28; outline: none; }
+.project-link-card__placeholder { color: #141414; background: transparent; border-style: dashed; }
+
 @media (max-width: 1000px) {
   .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .team-card:nth-child(even) { margin-top: 1.5rem; }
+  .project-links__grid { grid-template-columns: 1fr; }
+  .project-link-card { max-width: 760px; width: 100%; margin-inline: auto; }
+  .project-phone-preview, .video-preview { height: 500px; }
   .about-noru__overview { grid-template-columns: 1fr; }
   .overview-card { min-height: 280px; }
   .overview-card h3 { margin-top: 4rem; }
@@ -757,6 +790,8 @@ body {
   color: #f6f3e6;
   background: #141414;
 }
+:root[data-theme="dark"] .project-links { color: #f6f3e6; background: #232323; }
+:root[data-theme="dark"] .project-link-card { color: #141414; }
 
 :root[data-theme="dark"] .about-noru__benefits span,
 :root[data-theme="dark"] .overview-card:first-child,
@@ -948,6 +983,15 @@ body {
   .team-section h2 { font-size: clamp(3.4rem, 18vw, 5rem); }
   .team-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .team-card:nth-child(even) { margin-top: 0; }
+  .project-links { padding: 4rem 1.25rem; }
+  .project-links__heading h2 { font-size: clamp(3.2rem, 16vw, 5rem); }
+  .project-links__grid { grid-template-columns: 1fr; }
+  .project-phone-preview, .video-preview { height: min(92vw, 430px); }
+  .project-phone-preview { padding-inline: 0.5rem; }
+  .project-phone-preview .phone-prototype { transform: translate(-50%, -50%) scale(0.52); }
+  .project-link-card__copy { align-items: stretch; flex-direction: column; }
+  .project-link-card__copy div { max-width: none; }
+  .project-link-card__copy a, .project-link-card__placeholder { width: 100%; text-align: center; }
 
   .about-noru__pitch h2 { font-size: 17vw; }
   .about-noru__brand { min-height: 430px; box-shadow: 8px 8px 0 #141414; }
@@ -987,6 +1031,18 @@ body {
   .presentation-slider__status { text-align: center; }
 
 
+}
+
+@media (max-width: 420px) {
+  .project-links { padding-inline: 0.8rem; }
+  .project-link-card { padding: 0.65rem; box-shadow: 6px 7px 0 #141414; }
+  .project-link-card--youtube { box-shadow: 6px 7px 0 #f5bc28; }
+  .project-phone-preview, .video-preview { height: min(92vw, 370px); }
+  .project-phone-preview { padding: 0.5rem 0; }
+  .project-phone-preview .phone-prototype { transform: translate(-50%, -50%) scale(0.44); }
+  .project-phone-preview .phone-prototype__steps { max-width: 100%; flex-wrap: wrap; justify-content: center; }
+  .project-link-card__topline { font-size: 0.56rem; }
+  .video-preview__empty > span { max-width: 80%; text-align: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
