@@ -4,18 +4,18 @@ import PhonePrototype from "./PhonePrototype";
 const overviewItems = [
   {
     label: "01 / RESUMO",
-    title: "Carreira sem complicação.",
-    text: "O NORU é uma plataforma profissional feita para aproximar jovens, oportunidades e aprendizado em uma experiência simples, segura e mais humana.",
+    title: "Seu potencial vem primeiro.",
+    text: "O NORU ajuda jovens a desenvolver habilidades, reconhecer o que já sabem fazer e construir seu caminho profissional com mais confiança.",
   },
   {
     label: "02 / PERGUNTA NORTEADORA",
-    title: "E se começar fosse mais fácil?",
-    text: "Como podemos ajudar jovens a descobrir seus caminhos, desenvolver habilidades e chegar preparados às empresas certas?",
+    title: "E se experiência não fosse o começo?",
+    text: "Como aproximar jovens do mercado e criar espaço para aprender, mostrar suas habilidades e encontrar oportunidades reais?",
   },
   {
     label: "03 / OBJETIVO",
-    title: "Potencial em movimento.",
-    text: "Dar direção para quem está começando e criar uma ponte confiável entre talentos em formação e empresas que procuram novas perspectivas.",
+    title: "Do potencial à oportunidade.",
+    text: "Conectar jovens e empresas por meio de desenvolvimento, orientação e conexões que valorizem capacidades além da experiência formal.",
   },
 ];
 
@@ -131,8 +131,8 @@ export default function AboutNoru() {
     <section id="sobre" className="about-noru" aria-labelledby="about-title">
       <header className="about-noru__intro">
         <div className="about-noru__pitch">
-          <span className="about-noru__kicker">CARREIRA SEM COMPLICAÇÃO</span>
-          <h2 id="about-title">Cansado do<br /><em>Linkedln?</em></h2>
+          <span className="about-noru__kicker">FEITO POR JOVENS PARA JOVENS</span>
+          <h2 id="about-title">Cansado<br />de&nbsp;ser<br /><em>ignorado?</em></h2>
           <p className="about-noru__answer">Conheça o <strong>NORU.</strong></p>
           <p className="about-noru__description">Uma plataforma profissional feita para jovens aprenderem, criarem experiência e encontrarem oportunidades de um jeito simples, personalizado e confiável.</p>
           <div className="about-noru__benefits" aria-label="Principais benefícios do NORU">
