@@ -72,7 +72,8 @@ const teamMembers = [
 
 const projectLinks = {
   figma: "https://www.figma.com/proto/FUvvXp5FI5S4DqD0OkGlq6/Sem-t%C3%ADtulo?node-id=0-1&t=k8MpPoEXxRnQyFLp-1",
-  youtube: "", // Use o formato https://www.youtube.com/embed/ID_DO_VIDEO
+  youtube: "https://www.youtube.com/embed/rPtbfHMBm40",
+  youtubeWatch: "https://youtu.be/rPtbfHMBm40?si=g7ygv_W-H3hEMjfA",
 };
 
 const readPreference = (key, fallback) => {
@@ -308,7 +309,7 @@ export default function Hero3D() {
             </div>
             <div className="project-link-card__copy">
               <div><h3>Assista ao pitch</h3><p>Em poucos minutos, entenda o problema, a solução e o impacto que queremos construir.</p></div>
-              {projectLinks.youtube ? <a href={projectLinks.youtube} target="_blank" rel="noreferrer">ASSISTIR NO YOUTUBE <span>▶</span></a> : <span className="project-link-card__placeholder">PITCH EM BREVE</span>}
+              {projectLinks.youtube ? <a href={projectLinks.youtubeWatch} target="_blank" rel="noreferrer">ASSISTIR NO YOUTUBE <span>▶</span></a> : <span className="project-link-card__placeholder">PITCH EM BREVE</span>}
             </div>
           </article>
         </div>
